@@ -1,11 +1,12 @@
+import os
+from tkinter import filedialog
+from tkinter import *
 import praw
 import requests
 import re
 import urllib.request
 import PySimpleGUI as sg
-import os
-from tkinter import filedialog
-from tkinter import *
+
 
 
 ##########################GUI####################
@@ -23,10 +24,9 @@ window = sg.Window('RedditImageDownloader', layout)
 
 
 event, values = window.read()
-window.close()
 
 text_input = values[0]
-size = values[1]
+size = int(values[1])
 
 ##################SCRIPT######################
 reddit = praw.Reddit(
@@ -36,22 +36,21 @@ reddit = praw.Reddit(
 
 
 subreddit = reddit.subreddit(text_input)
-print(size)
-top = subreddit.top(limit=5)
-count = 0
+top = subreddit.hot(limit=None)
+count = 1
 path = values["-FOLDER-"]
-while True:
-    for submission in top:
-        url = str(submission.url)
-        filepath = os.path.join(path, f"image{count}")
-        # Check if the link is an image
-        if url.endswith("jpg") or url.endswith("jpeg") or url.endswith("png"):
 
-            # Retrieve the image and save it in current folder
-            urllib.request.urlretrieve(url, filepath)
-            count += 1
+for submission in top:
+    url = str(submission.url)
+    filepath = os.path.join(path, f"image{count}")
+    # Check if the link is an image
+    if url.endswith("jpg") or url.endswith("jpeg") or url.endswith("png"):
 
-            # Stop once you have input size of images
-            if count == size:
-                break
+        # Retrieve the image and save it in current folder
+        urllib.request.urlretrieve(url, filepath)
+        # Stop once you have input size of images
+        if count == size:
+            break
+        count += 1
 
+window.close()
