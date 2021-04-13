@@ -2,12 +2,17 @@ import praw,requests,re
 import urllib.request
 import PySimpleGUI as sg      
 import os
+from tkinter import filedialog
+from tkinter import *
 
 
 ##########################GUI####################
 
 layout = [[sg.Text('Please enter name of subreddit')],      
-                 [sg.InputText()],      
+                 [sg.InputText()],
+                 [sg.Text('Path')],
+                 [sg.In(size=(25,1), enable_events = True, key="-FOLDER-"), 
+                 sg.FolderBrowse()],      
                  [sg.Submit(), sg.Cancel()]]      
 
 window = sg.Window('RedditImageDownloader', layout)    
@@ -31,7 +36,7 @@ subreddit = reddit.subreddit(text_input)
 
 top = subreddit.top(limit = None)
 count = 0
-
+path = values["-FOLDER-"]
 for submission in top:
     url = str(submission.url)
     filepath = os.path.join("/home/utsav/Desktop/",f"image{count}")
@@ -43,5 +48,5 @@ for submission in top:
         count += 1
 
         # Stop once you have 10 images
-        if count == 10:
+        if count == 1:
             break
