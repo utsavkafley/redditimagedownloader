@@ -13,8 +13,6 @@ User input validation needs to be implemented as well.
 
 ## Installation and Setup Instructions
 
-#### Example:  
-
 Clone down this repository. You will need `praw` and `pythonsimplegui` installed globally on your machine.
 See requirements.txt for more info
 
