@@ -48,5 +48,5 @@ for submission in top:
         count += 1
 
         # Stop once you have 10 images
-        if count == 1:
+        if count == 10:
             break
